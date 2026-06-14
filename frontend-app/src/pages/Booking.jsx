@@ -21,6 +21,7 @@ function Booking() {
   }, []);
 
   return (
+    <div className="page-container">
     <div
       style={{
         maxWidth: "430px",
@@ -194,19 +195,6 @@ function Booking() {
         ))
       )}
 
-      <div
-        style={{
-          position: "sticky",
-          bottom: 0,
-          background: "white",
-          display: "flex",
-          justifyContent: "space-around",
-          padding: "15px",
-          borderRadius: "24px",
-          marginTop: "24px",
-          boxShadow: "0 -4px 12px rgba(0,0,0,0.08)",
-        }}
-      >
         <span onClick={() => navigate("/explore")}>Explore</span>
         <span onClick={() => navigate("/plan")}>Plan</span>
         <span style={{ color: "#4F7F5F", fontWeight: "bold" }}>
@@ -216,7 +204,7 @@ function Booking() {
         <span onClick={() => navigate("/profile")}>Profile</span>
       </div>
       <BottomNav />
-    </div>
+      </div>
   );
 }
 

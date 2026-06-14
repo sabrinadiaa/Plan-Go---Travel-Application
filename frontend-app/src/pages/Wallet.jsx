@@ -3,6 +3,7 @@ import BottomNav from "../components/BottomNav";
 
 function Wallet() {
   return (
+    <div className="page-container">
     <div
       style={{
         maxWidth: "430px",
@@ -38,6 +39,7 @@ function Wallet() {
       </div>
 
       <BottomNav />
+      </div>
     </div>
   );
 }

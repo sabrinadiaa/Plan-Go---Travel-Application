@@ -9,6 +9,7 @@ import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Review from "./pages/Review";
 import Wallet from "./pages/Wallet";
+import ExploreAll from "./pages/ExploreAll";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Explore />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/explore/all" element={<ExploreAll />} />
         <Route path="/destination/:id" element={<DestinationDetail />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/booking" element={<Booking />} />

@@ -5,47 +5,65 @@ function BottomNav() {
   const location = useLocation();
 
   const navItems = [
-    { label: "Explore", path: "/explore" },
-    { label: "Plan", path: "/plan" },
-    { label: "Bookings", path: "/booking" },
-    { label: "Wallet", path: "/wallet" },
-    { label: "Profile", path: "/profile" },
+    { label: "Explore", icon: "🏝️", path: "/explore" },
+    { label: "Plan", icon: "🗺️", path: "/plan" },
+    { label: "Booking", icon: "🎫", path: "/booking" },
+    { label: "Wallet", icon: "💳", path: "/wallet" },
+    { label: "Profile", icon: "👤", path: "/profile" },
   ];
 
   return (
     <div
       style={{
         position: "fixed",
-        bottom: "16px",
+        bottom: "18px",
         left: "50%",
         transform: "translateX(-50%)",
         width: "390px",
         maxWidth: "90%",
-        background: "white",
+        background: "rgba(255,255,255,0.96)",
         display: "flex",
-        justifyContent: "space-around",
-        padding: "14px 10px",
-        borderRadius: "24px",
-        boxShadow: "0 -4px 12px rgba(0,0,0,0.12)",
+        justifyContent: "space-between",
+        padding: "10px",
+        borderRadius: "28px",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.16)",
         zIndex: 9999,
       }}
     >
       {navItems.map((item) => {
-        const isActive = location.pathname === item.path;
+        const isActive =
+            location.pathname === item.path ||
+            (item.path === "/explore" && location.pathname.startsWith("/explore")) ||
+            (item.path === "/explore" && location.pathname === "/");
 
         return (
-          <span
+          <div
             key={item.path}
             onClick={() => navigate(item.path)}
             style={{
+              width: "68px",
+              padding: "8px 4px",
+              borderRadius: "22px",
+              textAlign: "center",
               cursor: "pointer",
-              fontSize: "12px",
-              color: isActive ? "#4F7F5F" : "#777",
-              fontWeight: isActive ? "bold" : "normal",
+              background: isActive ? "#4F7F5F" : "transparent",
+              color: isActive ? "white" : "#777",
+              transition: "0.2s",
             }}
           >
-            {item.label}
-          </span>
+            <div style={{ fontSize: "18px", marginBottom: "2px" }}>
+              {item.icon}
+            </div>
+
+            <div
+              style={{
+                fontSize: "11px",
+                fontWeight: isActive ? "700" : "500",
+              }}
+            >
+              {item.label}
+            </div>
+          </div>
         );
       })}
     </div>

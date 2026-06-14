@@ -11,6 +11,7 @@ function Profile() {
   };
 
   return (
+    <div className="page-container">
     <div
       style={{
         maxWidth: "430px",
@@ -107,22 +108,8 @@ function Profile() {
         Back to Explore
       </button>
 
-      <div
-        style={{
-          position: "sticky",
-          bottom: 0,
-          background: "white",
-          display: "flex",
-          justifyContent: "space-around",
-          padding: "15px",
-          borderRadius: "24px",
-          marginTop: "24px",
-          boxShadow: "0 -4px 12px rgba(0,0,0,0.08)",
-        }}
-      >
-        
-      </div>
       <BottomNav />
+      </div>
     </div>
   );
 }
