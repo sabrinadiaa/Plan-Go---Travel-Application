@@ -10,6 +10,8 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import Review from "./pages/Review";
 import Wallet from "./pages/Wallet";
 import ExploreAll from "./pages/ExploreAll";
+import PlanDetail from "./pages/PlanDetail";
+import Emergency from "./pages/Emergency";
 
 function App() {
   return (
@@ -20,12 +22,14 @@ function App() {
         <Route path="/explore/all" element={<ExploreAll />} />
         <Route path="/destination/:id" element={<DestinationDetail />} />
         <Route path="/plan" element={<Plan />} />
+        <Route path="/plan/:id" element={<PlanDetail />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/payment/:bookingId" element={<Payment />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/review/:destinationId" element={<Review />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/emergency" element={<Emergency />} />
       </Routes>
     </BrowserRouter>
   );

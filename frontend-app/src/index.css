@@ -2,30 +2,43 @@
       box-sizing: border-box;
 }
 
-body {
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
   margin: 0;
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  background: #e8e3da;
-  color: #2e2e2e;
+  padding: 0;
 }
 
-button {
-  font-family: inherit;
+body {
+  background: #f6f3ee;
 }
 
-input,
-textarea,
-select {
-  font-family: inherit;
+#root {
+  max-width: none;
+  text-align: left;
 }
 
 .page-container {
-  max-width: 430px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
   min-height: 100vh;
   background: #f6f3ee;
-  padding: 20px;
-  padding-bottom: 80px;
+  padding: 0 48px 120px 48px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .page-container {
+    padding: 0 28px 110px 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-container {
+    padding: 0 16px 100px 16px;
+  }
 }
 
 .card {

@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { getDestinations } from "../services/destinationService";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
+import AppHeader from "../components/AppHeader";
 
-function Explore() {
+function ExploreAll() {
   const [destinations, setDestinations] = useState([]);
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,79 +21,74 @@ function Explore() {
       });
   }, []);
 
-  const activeButtonStyle = {
-    border: "none",
-    background: "#4F7F5F",
-    color: "white",
-    padding: "10px 18px",
-    borderRadius: "20px",
-  };
+  const categories = [
+    {
+      label: "All",
+      value: "ALL",
+      icon: "🌍",
+      match: ["ALL"],
+    },
+    {
+      label: "Alam",
+      value: "NATURE",
+      icon: "🏝️",
+      match: ["NATURE", "ALAM"],
+    },
+    {
+      label: "Shopping",
+      value: "SHOPPING",
+      icon: "🛍️",
+      match: ["SHOPPING"],
+    },
+    {
+      label: "Club",
+      value: "CLUB",
+      icon: "🎵",
+      match: ["CLUB"],
+    },
+    {
+      label: "Cafe & Eatery",
+      value: "CAFE",
+      icon: "☕",
+      match: ["CAFE", "CAFE_EATERY", "EATERY"],
+    },
+    {
+      label: "Hotel",
+      value: "HOTEL",
+      icon: "🏨",
+      match: ["HOTEL"],
+    },
+  ];
 
-  const normalButtonStyle = {
-    border: "none",
-    background: "#E8E3DA",
-    color: "#444",
-    padding: "10px 18px",
-    borderRadius: "20px",
-  };
+  const activeCategory = categories.find(
+    (category) => category.value === selectedCategory
+  );
+
+  const filteredDestinations = destinations.filter((item) => {
+    const destinationName = item.name?.toLowerCase() || "";
+    const destinationLocation = item.location?.toLowerCase() || "";
+    const destinationCategory = item.category?.toUpperCase() || "";
+
+    const matchSearch =
+      destinationName.includes(search.toLowerCase()) ||
+      destinationLocation.includes(search.toLowerCase());
+
+    const matchCategory =
+      selectedCategory === "ALL" ||
+      activeCategory?.match.includes(destinationCategory);
+
+    return matchSearch && matchCategory;
+  });
 
   return (
     <div className="page-container">
-    <div
-      style={{
-        maxWidth: "430px",
-        margin: "0 auto",
-        minHeight: "100vh",
-        background: "#F6F3EE",
-        padding: "20px",
-        boxSizing: "border-box",
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <div>
-          <h2
-            style={{
-              color: "#4F7F5F",
-              margin: 0,
-            }}
-          >
-            Plan & Go
-          </h2>
+      <AppHeader />
 
-          <h1
-            style={{
-              color: "#2E2E2E",
-              margin: "8px 0 0 0",
-              fontSize: "28px",
-            }}
-          >
-            Explore
-          </h1>
-        </div>
-
-        <img
-          src="https://placehold.co/50"
-          alt="profile"
-          style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-          }}
-        />
-      </div>
-
-      {/* Search */}
       <input
         type="text"
-        placeholder="Search destinations..."
+        placeholder="Search destinations, hotels..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         style={{
           width: "100%",
           padding: "14px",
@@ -97,96 +96,141 @@ function Explore() {
           border: "none",
           outline: "none",
           background: "#D8D1C5",
-          marginBottom: "20px",
-          boxSizing: "border-box",
+          marginBottom: "16px",
         }}
       />
 
-      {/* Category */}
       <div
         style={{
           display: "flex",
           gap: "10px",
-          marginBottom: "20px",
           overflowX: "auto",
+          marginBottom: "18px",
+          paddingBottom: "4px",
         }}
       >
-        <button style={activeButtonStyle}>All</button>
-        <button style={normalButtonStyle}>Nature</button>
-        <button style={normalButtonStyle}>Shopping</button>
-        <button style={normalButtonStyle}>Cafe</button>
-      </div>
-
-      {/* Destination Grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "16px",
-          paddingBottom: "80px",
-        }}
-      >
-        {destinations.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => navigate(`/destination/${item.id}`)}
+        {categories.map((category) => (
+          <button
+            key={category.value}
+            onClick={() => setSelectedCategory(category.value)}
             style={{
-              background: "white",
-              borderRadius: "16px",
-              overflow: "hidden",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              border: "none",
+              background:
+                selectedCategory === category.value ? "#4F7F5F" : "#E8E3DA",
+              color: selectedCategory === category.value ? "white" : "#444",
+              padding: "10px 16px",
+              borderRadius: "20px",
+              whiteSpace: "nowrap",
               cursor: "pointer",
+              fontWeight: "600",
+              fontSize: "13px",
             }}
           >
-            <img
-              src={item.imageUrl}
-              alt={item.name}
-              style={{
-                width: "100%",
-                height: "130px",
-                objectFit: "cover",
-              }}
-            />
-
-            <div style={{ padding: "10px" }}>
-              <h3
-                style={{
-                  fontSize: "14px",
-                  margin: "0 0 6px 0",
-                  color: "#2E2E2E",
-                }}
-              >
-                {item.name}
-              </h3>
-
-              <p
-                style={{
-                  fontSize: "12px",
-                  margin: "0 0 6px 0",
-                  color: "#777",
-                }}
-              >
-                {item.location}
-              </p>
-
-              <p
-                style={{
-                  fontSize: "13px",
-                  margin: 0,
-                  color: "#4F7F5F",
-                  fontWeight: "bold",
-                }}
-              >
-                Rp {item.price}
-              </p>
-            </div>
-          </div>
+            {category.icon} {category.label}
+          </button>
         ))}
       </div>
-      </div>
+
+      <h2
+        style={{
+          margin: "0 0 14px 0",
+          color: "#2E2E2E",
+          fontSize: "20px",
+        }}
+      >
+        {selectedCategory === "ALL"
+          ? "All Destinations"
+          : activeCategory?.label}
+      </h2>
+
+      {filteredDestinations.length === 0 ? (
+        <p
+          style={{
+            color: "#777",
+            textAlign: "center",
+            marginTop: "40px",
+          }}
+        >
+          Belum ada destinasi untuk kategori ini.
+        </p>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "16px",
+            paddingBottom: "90px",
+          }}
+        >
+          {filteredDestinations.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => navigate(`/destination/${item.id}`)}
+              style={{
+                background: "white",
+                borderRadius: "18px",
+                overflow: "hidden",
+                boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                style={{
+                  width: "100%",
+                  height: "145px",
+                  objectFit: "cover",
+                }}
+              />
+
+              <div style={{ padding: "10px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: "6px",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "13px",
+                      margin: 0,
+                      color: "#2E2E2E",
+                    }}
+                  >
+                    {item.name}
+                  </h3>
+
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: "bold",
+                      color: "#2E2E2E",
+                    }}
+                  >
+                    Rp {item.price}
+                  </span>
+                </div>
+
+                <p
+                  style={{
+                    fontSize: "11px",
+                    margin: "6px 0 0 0",
+                    color: "#777",
+                  }}
+                >
+                  📍 {item.location}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <BottomNav />
     </div>
   );
 }
 
-export default Explore;
+export default ExploreAll;

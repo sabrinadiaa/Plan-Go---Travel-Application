@@ -6,11 +6,11 @@ function AppHeader() {
   return (
     <div
       style={{
+        width: "100vw",
+        marginLeft: "calc(50% - 50vw)",
+        marginRight: "calc(50% - 50vw)",
         background: "white",
-        margin: "-20px -20px 18px -20px",
-        padding: "16px 20px",
-        borderBottomLeftRadius: "0px",
-        borderBottomRightRadius: "0px",
+        padding: "24px 64px",
         boxShadow: "0 4px 14px rgba(0,0,0,0.08)",
         display: "flex",
         justifyContent: "space-between",
@@ -18,13 +18,14 @@ function AppHeader() {
         position: "sticky",
         top: 0,
         zIndex: 100,
+        boxSizing: "border-box",
       }}
     >
       <h2
         style={{
           color: "#4F7F5F",
           margin: 0,
-          fontSize: "22px",
+          fontSize: "28px",
           fontWeight: "800",
         }}
       >

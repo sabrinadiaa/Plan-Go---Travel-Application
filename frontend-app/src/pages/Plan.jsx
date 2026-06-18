@@ -1,183 +1,222 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getItineraryById } from "../services/itineraryService";
-import { createBooking } from "../services/bookingService";
 import BottomNav from "../components/BottomNav";
+import AppHeader from "../components/AppHeader";
 
 function Plan() {
   const navigate = useNavigate();
-  const [itinerary, setItinerary] = useState(null);
-
-  const handleCreateBooking = () => {
-    const userId = 1;
-    const itineraryId = 2;
-
-    createBooking(userId, itineraryId)
-      .then(() => {
-        alert("Booking berhasil dibuat");
-        navigate("/booking");
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Gagal membuat booking");
-      });
-  };
-
-  useEffect(() => {
-    const itineraryId = 2; // sementara pakai itinerary ID 2
-
-    getItineraryById(itineraryId)
-      .then((response) => {
-        setItinerary(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  if (!itinerary) {
-    return (
-      <div
-        style={{
-          maxWidth: "430px",
-          margin: "0 auto",
-          minHeight: "100vh",
-          background: "#F6F3EE",
-          padding: "20px",
-        }}
-      >
-        <p>Loading itinerary...</p>
-      </div>
-    );
-  }
 
   return (
-    <div
-      style={{
-        maxWidth: "430px",
-        margin: "0 auto",
-        minHeight: "100vh",
-        background: "#F6F3EE",
-        padding: "20px",
-        boxSizing: "border-box",
-      }}
-    >
-      <h2 style={{ color: "#4F7F5F", marginBottom: "4px" }}>
-        Plan & Go
-      </h2>
-
-      <h1 style={{ color: "#2E2E2E", marginTop: 0 }}>
-        My Itinerary
-      </h1>
+    <div className="page-container">
+      <AppHeader />
 
       <div
         style={{
-          background: "white",
-          padding: "16px",
-          borderRadius: "20px",
-          marginBottom: "20px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+          background:
+            "linear-gradient(135deg, rgba(232,227,218,0.95), rgba(255,255,255,0.8))",
+          borderRadius: "24px",
+          padding: "22px",
+          marginBottom: "22px",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
         }}
       >
-        <h2 style={{ margin: "0 0 8px 0", color: "#2E2E2E" }}>
-          {itinerary.title}
-        </h2>
+        <span
+          style={{
+            background: "#F3E7B8",
+            color: "#8A6A00",
+            padding: "6px 12px",
+            borderRadius: "16px",
+            fontSize: "11px",
+            fontWeight: "bold",
+          }}
+        >
+          NEW ITINERARY
+        </span>
 
-        <p style={{ margin: 0, color: "#777" }}>
-          Total People: {itinerary.totalPeople}
+        <h1
+          style={{
+            margin: "12px 0 8px 0",
+            fontSize: "34px",
+            color: "#2E2E2E",
+            lineHeight: "1.1",
+          }}
+        >
+          Summer in <br /> Tuscany
+        </h1>
+
+        <p style={{ color: "#777", margin: "0 0 6px 0" }}>
+          🗓 August 12 — August 24, 2024
+        </p>
+
+        <p
+          onClick={() => navigate("/plan/detail")}
+          style={{
+            color: "#4F7F5F",
+            margin: 0,
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          ✎ Edit Details
         </p>
       </div>
-
-      <h3 style={{ color: "#2E2E2E" }}>Destinations</h3>
-
-      {itinerary.items && itinerary.items.length > 0 ? (
-        itinerary.items.map((item) => (
-          <div
-            key={item.id}
-            style={{
-              background: "white",
-              borderRadius: "18px",
-              overflow: "hidden",
-              marginBottom: "16px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-            }}
-          >
-            <img
-              src={item.destination.imageUrl}
-              alt={item.destination.name}
-              style={{
-                width: "100%",
-                height: "170px",
-                objectFit: "cover",
-              }}
-            />
-
-            <div style={{ padding: "14px" }}>
-              <h3
-                style={{
-                  margin: "0 0 6px 0",
-                  color: "#2E2E2E",
-                }}
-              >
-                {item.destination.name}
-              </h3>
-
-              <p
-                style={{
-                  margin: "0 0 8px 0",
-                  color: "#777",
-                }}
-              >
-                {item.destination.location}
-              </p>
-
-              <p
-                style={{
-                  margin: 0,
-                  color: "#4F7F5F",
-                  fontWeight: "bold",
-                }}
-              >
-                Rp {item.destination.price}
-              </p>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>Belum ada destination di itinerary ini.</p>
-      )}
-
-      <button
-        onClick={handleCreateBooking}
+          <button
+  onClick={() => navigate("/plan/detail")}
+  style={{
+    width: "100%",
+    padding: "15px",
+    border: "none",
+    borderRadius: "24px",
+    background: "#4F7F5F",
+    color: "white",
+    fontSize: "16px",
+    fontWeight: "bold",
+    marginBottom: "22px",
+    cursor: "pointer",
+  }}
+>
+  View Current Itinerary →
+</button>
+      <div
+        onClick={() => navigate("/explore/all")}
         style={{
-          width: "100%",
-          padding: "15px",
-          border: "none",
+          background: "white",
           borderRadius: "24px",
-          background: "#4F7F5F",
-          color: "white",
-          fontSize: "16px",
-          marginTop: "20px",
+          padding: "28px",
+          marginBottom: "22px",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
           cursor: "pointer",
         }}
       >
-        Continue to Booking
-      </button>
+        <div
+          style={{
+            width: "58px",
+            height: "58px",
+            borderRadius: "16px",
+            background: "#D8F3DC",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "26px",
+            marginBottom: "28px",
+          }}
+        >
+          🗺️
+        </div>
+
+        <h2 style={{ margin: "0 0 12px 0", color: "#2E2E2E" }}>
+          Add Destination
+        </h2>
+
+        <p
+          style={{
+            color: "#666",
+            lineHeight: "1.6",
+            marginBottom: "24px",
+          }}
+        >
+          Choose the cities, national parks, or hidden gems you want to explore
+          on this journey.
+        </p>
+
+        <p style={{ color: "#4F7F5F", fontWeight: "bold", margin: 0 }}>
+          Start exploring →
+        </p>
+      </div>
 
       <div
+        onClick={() => navigate("/explore/all?category=HOTEL")}
         style={{
-          position: "sticky",
-          bottom: 0,
           background: "white",
-          display: "flex",
-          justifyContent: "space-around",
-          padding: "15px",
           borderRadius: "24px",
-          marginTop: "24px",
-          boxShadow: "0 -4px 12px rgba(0,0,0,0.08)",
+          padding: "28px",
+          marginBottom: "22px",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+          cursor: "pointer",
         }}
       >
+        <div
+          style={{
+            width: "58px",
+            height: "58px",
+            borderRadius: "16px",
+            background: "#FFF3CD",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "26px",
+            marginBottom: "28px",
+          }}
+        >
+          🛏️
+        </div>
+
+        <h2 style={{ margin: "0 0 12px 0", color: "#2E2E2E" }}>
+          Add Hotel
+        </h2>
+
+        <p
+          style={{
+            color: "#666",
+            lineHeight: "1.6",
+            marginBottom: "24px",
+          }}
+        >
+          Find the perfect stay. From boutique eco-lodges to historic villas
+          nestled in the hills.
+        </p>
+
+        <p style={{ color: "#8A6A00", fontWeight: "bold", margin: 0 }}>
+          Search accommodation →
+        </p>
       </div>
+
+      <div
+        onClick={() => navigate("/explore/all?category=CLUB")}
+        style={{
+          background: "white",
+          borderRadius: "24px",
+          padding: "28px",
+          marginBottom: "120px",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+          cursor: "pointer",
+        }}
+      >
+        <div
+          style={{
+            width: "58px",
+            height: "58px",
+            borderRadius: "16px",
+            background: "#F6F3EE",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "26px",
+            marginBottom: "28px",
+          }}
+        >
+          🎵
+        </div>
+
+        <h2 style={{ margin: "0 0 12px 0", color: "#2E2E2E" }}>
+          Add Club
+        </h2>
+
+        <p
+          style={{
+            color: "#666",
+            lineHeight: "1.6",
+            marginBottom: "24px",
+          }}
+        >
+          Find nightlife spots, beach clubs, and entertainment places for your
+          trip.
+        </p>
+
+        <p style={{ color: "#8A6A00", fontWeight: "bold", margin: 0 }}>
+          Search entertainment →
+        </p>
+      </div>
+
       <BottomNav />
     </div>
   );
