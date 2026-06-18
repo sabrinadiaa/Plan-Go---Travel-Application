@@ -1,30 +1,29 @@
 package com.plango.controller;
 
 import com.plango.entity.Destination;
-import com.plango.repository.DestinationRepository;
+import com.plango.repository.DestinationJdbcRepository;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/destination")
+@CrossOrigin(origins = "http://localhost:5173")
 public class DestinationController {
 
-    private final DestinationRepository destinationRepository;
+    private final DestinationJdbcRepository destinationRepository;
 
-    public DestinationController(DestinationRepository destinationRepository) {
+    public DestinationController(DestinationJdbcRepository destinationRepository) {
         this.destinationRepository = destinationRepository;
     }
 
     @GetMapping
-    public List<Destination> getAll() {
+    public List<Destination> getAllDestinations() {
         return destinationRepository.findAll();
     }
+
     @GetMapping("/{id}")
-    public Destination getById(@PathVariable Long id) {
-        return destinationRepository.findById(id).orElse(null);
+    public Destination getDestinationById(@PathVariable Long id) {
+        return destinationRepository.findById(id);
     }
 }
