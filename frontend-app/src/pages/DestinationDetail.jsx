@@ -38,7 +38,7 @@ function DestinationDetail() {
     addDestinationToItinerary(itineraryId, destination.id)
       .then(() => {
         alert("Destination berhasil ditambahkan ke itinerary");
-        navigate("/plan/detail");
+        navigate(`/plan/detail/${itineraryId}`);
       })
       .catch((error) => {
         console.error(error);

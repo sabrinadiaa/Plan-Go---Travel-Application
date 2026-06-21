@@ -1,30 +1,29 @@
 package com.plango.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 public class Review {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private User user;
+    private Destination destination;
     private Integer rating;
-
-    @Column(length = 2000)
     private String comment;
-
     private LocalDateTime reviewDate;
 
-    @ManyToOne
-    private User user;
-
-    @ManyToOne
-    private Destination destination;
+    public Review() {
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Destination getDestination() {
+        return destination;
     }
 
     public Integer getRating() {
@@ -39,12 +38,16 @@ public class Review {
         return reviewDate;
     }
 
-    public User getUser() {
-        return user;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Destination getDestination() {
-        return destination;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setDestination(Destination destination) {
+        this.destination = destination;
     }
 
     public void setRating(Integer rating) {
@@ -57,13 +60,5 @@ public class Review {
 
     public void setReviewDate(LocalDateTime reviewDate) {
         this.reviewDate = reviewDate;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setDestination(Destination destination) {
-        this.destination = destination;
     }
 }

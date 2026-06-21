@@ -14,11 +14,15 @@ public class UserService {
     }
 
     public User register(User user) {
+        if (user.getSaldo() == null) {
+            user.setSaldo(0.0);
+        }
+
         return userRepository.save(user);
     }
-    
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElse(null);
+    }
 }

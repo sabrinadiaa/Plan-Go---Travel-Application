@@ -1,7 +1,7 @@
 package com.plango.controller;
 
 import com.plango.entity.Destination;
-import com.plango.repository.DestinationJdbcRepository;
+import com.plango.repository.DestinationRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class DestinationController {
 
-    private final DestinationJdbcRepository destinationRepository;
+    private final DestinationRepository destinationRepository;
 
-    public DestinationController(DestinationJdbcRepository destinationRepository) {
+    public DestinationController(DestinationRepository destinationRepository) {
         this.destinationRepository = destinationRepository;
     }
 
@@ -24,6 +24,7 @@ public class DestinationController {
 
     @GetMapping("/{id}")
     public Destination getDestinationById(@PathVariable Long id) {
-        return destinationRepository.findById(id);
+        return destinationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Destination tidak ditemukan"));
     }
 }

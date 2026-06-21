@@ -1,28 +1,25 @@
 package com.plango.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 public class Payment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private Booking booking;
     private String method;
-
     private String status;
-
     private Double amount;
-
     private LocalDateTime paymentDate;
 
-    @OneToOne
-    private Booking booking;
+    public Payment() {
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public Booking getBooking() {
+        return booking;
     }
 
     public String getMethod() {
@@ -41,8 +38,12 @@ public class Payment {
         return paymentDate;
     }
 
-    public Booking getBooking() {
-        return booking;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     public void setMethod(String method) {
@@ -59,9 +60,5 @@ public class Payment {
 
     public void setPaymentDate(LocalDateTime paymentDate) {
         this.paymentDate = paymentDate;
-    }
-
-    public void setBooking(Booking booking) {
-        this.booking = booking;
     }
 }

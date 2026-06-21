@@ -8,7 +8,6 @@ function BottomNav() {
     { label: "Explore", icon: "🏝️", path: "/explore" },
     { label: "Plan", icon: "🗺️", path: "/plan" },
     { label: "Booking", icon: "🎫", path: "/booking" },
-    { label: "Wallet", icon: "💳", path: "/wallet" },
     { label: "Profile", icon: "👤", path: "/profile" },
   ];
 

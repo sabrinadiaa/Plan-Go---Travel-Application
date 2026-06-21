@@ -59,4 +59,8 @@ public class PaymentController {
     public Payment getById(@PathVariable Long id) {
         return paymentRepository.findById(id).orElse(null);
     }
+    @GetMapping("/user/{userId}")
+        public List<Payment> getPaymentsByUser(@PathVariable Long userId) {
+            return paymentRepository.findByUserId(userId);
+        }
 }

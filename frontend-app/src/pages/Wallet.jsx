@@ -280,7 +280,7 @@ function Wallet() {
 
           {/* button */}
           <button
-            onClick={() => navigate("/plan/detail")}
+            onClick={() => navigate(`/plan/detail/${itineraryId}`)}
             style={{
               width: "100%",
               border: "none",

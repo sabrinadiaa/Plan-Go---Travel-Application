@@ -6,3 +6,11 @@ export const createPayment = (bookingId, method) => {
     method: method,
   });
 };
+
+export const getUserPayments = (userId) => {
+  return api.get(`/payment/user/${userId}`);
+};
+
+export const getPaymentById = (id) => {
+  return api.get(`/payment/${id}`);
+};

@@ -1,28 +1,53 @@
 package com.plango.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class EmergencyContact {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String phone;
+    private String category;
+    private String location;
 
-    private String city;
+    public EmergencyContact() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

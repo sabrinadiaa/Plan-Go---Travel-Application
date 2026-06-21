@@ -1,14 +1,128 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
 import AppHeader from "../components/AppHeader";
+import {
+  getUserItineraries,
+  createItinerary,
+} from "../services/itineraryService";
 
 function Plan() {
   const navigate = useNavigate();
+
+  const USER_ID = 1;
+
+  const [currentItinerary, setCurrentItinerary] = useState(null);
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newPeople, setNewPeople] = useState(1);
+  const [creating, setCreating] = useState(false);
+
+  useEffect(() => {
+    loadCurrentItinerary();
+  }, []);
+
+  const loadCurrentItinerary = () => {
+    getUserItineraries(USER_ID)
+      .then((response) => {
+        const data = response.data || [];
+        const activeId = localStorage.getItem("activeItineraryId");
+
+        if (activeId) {
+          const found = data.find(
+            (item) => String(item.id) === String(activeId)
+          );
+
+          if (found) {
+            setCurrentItinerary(found);
+            return;
+          }
+        }
+
+        if (data.length > 0) {
+          setCurrentItinerary(data[0]);
+          localStorage.setItem("activeItineraryId", String(data[0].id));
+        } else {
+          setCurrentItinerary(null);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleCreateNewPlan = async () => {
+    if (!newTitle.trim()) {
+      alert("Nama plan tidak boleh kosong");
+      return;
+    }
+
+    try {
+      setCreating(true);
+
+      const response = await createItinerary(
+        USER_ID,
+        newTitle.trim(),
+        Number(newPeople) || 1
+      );
+
+      const newItinerary = response.data;
+
+      if (!newItinerary?.id) {
+        alert("Backend belum mengembalikan id itinerary baru");
+        return;
+      }
+
+      localStorage.setItem("activeItineraryId", String(newItinerary.id));
+
+      setNewTitle("");
+      setNewPeople(1);
+      setCurrentItinerary(newItinerary);
+
+      navigate(`/plan/detail/${newItinerary.id}`);
+    } catch (error) {
+      console.error(error);
+      alert("Gagal membuat itinerary baru");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const handleViewCurrentItinerary = () => {
+    const activeId =
+      currentItinerary?.id || localStorage.getItem("activeItineraryId");
+
+    if (!activeId) {
+      alert("Belum ada itinerary. Buat plan baru terlebih dahulu.");
+      return;
+    }
+
+    navigate(`/plan/detail/${activeId}`);
+  };
+
+  const handleStartExploring = (category) => {
+    const activeId =
+      currentItinerary?.id || localStorage.getItem("activeItineraryId");
+
+    if (!activeId) {
+      alert("Buat itinerary baru terlebih dahulu agar destinasi tidak masuk ke plan lama.");
+      return;
+    }
+
+    localStorage.setItem("activeItineraryId", String(activeId));
+
+    if (category) {
+      navigate(`/explore/all?category=${category}`);
+    } else {
+      navigate("/explore/all");
+    }
+  };
 
   return (
     <div className="page-container">
       <AppHeader />
 
+      {/* Current Itinerary */}
       <div
         style={{
           background:
@@ -29,7 +143,7 @@ function Plan() {
             fontWeight: "bold",
           }}
         >
-          NEW ITINERARY
+          {currentItinerary ? "CURRENT ITINERARY" : "NO ITINERARY"}
         </span>
 
         <h1
@@ -40,15 +154,19 @@ function Plan() {
             lineHeight: "1.1",
           }}
         >
-          Summer in <br /> Tuscany
+          {currentItinerary?.title || "Create New Plan"}
         </h1>
 
         <p style={{ color: "#777", margin: "0 0 6px 0" }}>
-          🗓 August 12 — August 24, 2024
+          👥 {currentItinerary?.totalPeople || 1} Traveler
+        </p>
+
+        <p style={{ color: "#777", margin: "0 0 6px 0" }}>
+          📍 {currentItinerary?.items?.length || 0} Destination
         </p>
 
         <p
-          onClick={() => navigate("/plan/detail")}
+          onClick={handleViewCurrentItinerary}
           style={{
             color: "#4F7F5F",
             margin: 0,
@@ -59,25 +177,103 @@ function Plan() {
           ✎ Edit Details
         </p>
       </div>
-          <button
-  onClick={() => navigate("/plan/detail")}
-  style={{
-    width: "100%",
-    padding: "15px",
-    border: "none",
-    borderRadius: "24px",
-    background: "#4F7F5F",
-    color: "white",
-    fontSize: "16px",
-    fontWeight: "bold",
-    marginBottom: "22px",
-    cursor: "pointer",
-  }}
->
-  View Current Itinerary →
-</button>
+
+      <button
+        onClick={handleViewCurrentItinerary}
+        style={{
+          width: "100%",
+          padding: "15px",
+          border: "none",
+          borderRadius: "24px",
+          background: "#4F7F5F",
+          color: "white",
+          fontSize: "16px",
+          fontWeight: "bold",
+          marginBottom: "22px",
+          cursor: "pointer",
+        }}
+      >
+        View Current Itinerary →
+      </button>
+
+      {/* Create New Plan */}
       <div
-        onClick={() => navigate("/explore/all")}
+        style={{
+          background: "white",
+          borderRadius: "24px",
+          padding: "24px",
+          marginBottom: "22px",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+        }}
+      >
+        <h2 style={{ marginTop: 0, color: "#2E2E2E" }}>
+          Buat Itinerary Baru
+        </h2>
+
+        <p
+          style={{
+            color: "#777",
+            fontSize: "14px",
+            lineHeight: "1.5",
+            marginBottom: "18px",
+          }}
+        >
+          Gunakan ini kalau ingin membuat plan baru agar itinerary ID berbeda
+          dan tidak menimpa plan sebelumnya.
+        </p>
+
+        <input
+          type="text"
+          placeholder="Contoh: Trip Ngalam"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "13px",
+            borderRadius: "14px",
+            border: "1px solid #DDD",
+            marginBottom: "12px",
+            boxSizing: "border-box",
+          }}
+        />
+
+        <input
+          type="number"
+          min="1"
+          value={newPeople}
+          onChange={(e) => setNewPeople(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "13px",
+            borderRadius: "14px",
+            border: "1px solid #DDD",
+            marginBottom: "14px",
+            boxSizing: "border-box",
+          }}
+        />
+
+        <button
+          onClick={handleCreateNewPlan}
+          disabled={creating}
+          style={{
+            width: "100%",
+            border: "none",
+            background: "#4F7F5F",
+            color: "white",
+            padding: "14px",
+            borderRadius: "16px",
+            fontWeight: "bold",
+            cursor: creating ? "not-allowed" : "pointer",
+            opacity: creating ? 0.7 : 1,
+          }}
+        >
+          {creating ? "Membuat..." : "+ Buat Plan Baru"}
+        </button>
+      </div>
+
+      {/* Add Destination */}
+      <div
+        onClick={() => handleStartExploring()}
         style={{
           background: "white",
           borderRadius: "24px",
@@ -123,8 +319,9 @@ function Plan() {
         </p>
       </div>
 
+      {/* Add Hotel */}
       <div
-        onClick={() => navigate("/explore/all?category=HOTEL")}
+        onClick={() => handleStartExploring("HOTEL")}
         style={{
           background: "white",
           borderRadius: "24px",
@@ -170,8 +367,9 @@ function Plan() {
         </p>
       </div>
 
+      {/* Add Club */}
       <div
-        onClick={() => navigate("/explore/all?category=CLUB")}
+        onClick={() => handleStartExploring("CLUB")}
         style={{
           background: "white",
           borderRadius: "24px",

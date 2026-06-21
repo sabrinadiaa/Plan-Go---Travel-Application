@@ -32,18 +32,6 @@ function AppHeader() {
         Plan & Go
       </h2>
 
-      <img
-        src="https://placehold.co/48"
-        alt="profile"
-        onClick={() => navigate("/profile")}
-        style={{
-          width: "48px",
-          height: "48px",
-          borderRadius: "50%",
-          objectFit: "cover",
-          cursor: "pointer",
-        }}
-      />
     </div>
   );
 }

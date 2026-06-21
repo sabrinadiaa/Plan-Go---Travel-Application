@@ -1,25 +1,44 @@
 package com.plango.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "user_preferences")
 public class UserPreference {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
+    private String preferenceType;
+    private String preferenceValue;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    public UserPreference() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getPreferenceType() {
+        return preferenceType;
+    }
+
+    public String getPreferenceValue() {
+        return preferenceValue;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setPreferenceType(String preferenceType) {
+        this.preferenceType = preferenceType;
+    }
+
+    public void setPreferenceValue(String preferenceValue) {
+        this.preferenceValue = preferenceValue;
+    }
 }

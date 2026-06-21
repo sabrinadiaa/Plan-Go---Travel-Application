@@ -1,13 +1,15 @@
 package com.plango.controller;
 
-import com.plango.dto.auth.RegisterRequest;
 import com.plango.dto.auth.LoginRequest;
+import com.plango.dto.auth.LoginResponse;
+import com.plango.dto.auth.RegisterRequest;
 import com.plango.entity.User;
 import com.plango.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final UserRepository userRepository;
@@ -16,40 +18,50 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/register")
-    public String registerInfo() {
-        return "Halo! Backend PlanGo aman kok. Tapi kalau mau register, harus pakai POST lewat Postman ya!";
-    }
-
     @PostMapping("/register")
-    public String register(
-            @RequestBody RegisterRequest request
-    ) {
+    public LoginResponse register(@RequestBody RegisterRequest request) {
+        User existingUser = userRepository.findByEmail(request.getEmail()).orElse(null);
+
+        if (existingUser != null) {
+            return LoginResponse.failed("Email sudah terdaftar");
+        }
 
         User user = new User();
-
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
+        user.setSaldo(0.0);
+        user.setRole("CUSTOMER");
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        return "Register berhasil!";
+        return LoginResponse.success(new LoginResponse.UserData(
+                savedUser.getId(),
+                savedUser.getUsername(),
+                savedUser.getEmail(),
+                savedUser.getSaldo(),
+                savedUser.getRole()
+        ));
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request){
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElse(null);
 
-        User user = userRepository.findByEmail(request.getEmail());
-
-        if(user == null){
-            return "Email tidak ditemukan";
+        if (user == null) {
+            return LoginResponse.failed("Email tidak ditemukan");
         }
 
-        if(!user.getPassword().equals(request.getPassword())){
-            return "Password salah";
+        if (!user.getPassword().equals(request.getPassword())) {
+            return LoginResponse.failed("Password salah");
         }
 
-        return "Login berhasil";
+        return LoginResponse.success(new LoginResponse.UserData(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getSaldo(),
+                user.getRole()
+        ));
     }
 }

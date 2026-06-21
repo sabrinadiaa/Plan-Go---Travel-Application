@@ -1,27 +1,32 @@
 package com.plango.entity;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
     private String email;
     private String password;
     private Double saldo;
+    private String role;
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Itinerary> itineraries;
+    public User() {
+    }
 
-    public User() {}
+    public User(
+            Long id,
+            String username,
+            String email,
+            String password,
+            Double saldo,
+            String role
+    ) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.saldo = saldo;
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -31,39 +36,43 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Double getSaldo() {
         return saldo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
 
-    public List<Itinerary> getItineraries() {
-        return itineraries;
-    }
-
-    public void setItineraries(List<Itinerary> itineraries) {
-        this.itineraries = itineraries;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

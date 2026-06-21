@@ -163,7 +163,7 @@ function Explore() {
             margin: "0 0 6px 0",
           }}
         >
-          Welcome back, Puput
+          Welcome back, Nadia
         </h1>
 
         <p

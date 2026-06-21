@@ -1,32 +1,19 @@
 package com.plango.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalTime;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.time.LocalDateTime;
 
-@Entity
 public class ItineraryItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private LocalTime visitTime;
-
-   @ManyToOne
-   @JsonBackReference
-   private Itinerary itinerary;
-
-    @ManyToOne
+    private Itinerary itinerary;
     private Destination destination;
+    private LocalDateTime visitTime;
 
-    // Getter
-    public Long getId() {
-        return id;
+    public ItineraryItem() {
     }
 
-    public LocalTime getVisitTime() {
-        return visitTime;
+    public Long getId() {
+        return id;
     }
 
     public Itinerary getItinerary() {
@@ -37,9 +24,12 @@ public class ItineraryItem {
         return destination;
     }
 
-    // Setter
-    public void setVisitTime(LocalTime visitTime) {
-        this.visitTime = visitTime;
+    public LocalDateTime getVisitTime() {
+        return visitTime;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setItinerary(Itinerary itinerary) {
@@ -48,5 +38,9 @@ public class ItineraryItem {
 
     public void setDestination(Destination destination) {
         this.destination = destination;
+    }
+
+    public void setVisitTime(LocalDateTime visitTime) {
+        this.visitTime = visitTime;
     }
 }

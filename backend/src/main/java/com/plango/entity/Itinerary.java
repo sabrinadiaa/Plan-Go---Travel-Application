@@ -1,39 +1,27 @@
 package com.plango.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Entity
 public class Itinerary {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String title;
-
-    private Integer totalPeople;
-
-    private LocalDate startDate;
-
-    private LocalDate endDate;
-
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    @JsonBackReference
     private User user;
+    private String title;
+    private Integer totalPeople;
+    private LocalDateTime createdAt;
+    private List<ItineraryItem> items = new ArrayList<>();
 
-    @OneToMany(mappedBy="itinerary")
-    @JsonManagedReference
-    private List<ItineraryItem> items;
+    public Itinerary() {
+    }
 
-    // Getter
     public Long getId() {
         return id;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String getTitle() {
@@ -44,23 +32,22 @@ public class Itinerary {
         return totalPeople;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public User getUser() {
-        return user;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public List<ItineraryItem> getItems() {
         return items;
     }
 
-    // Setter
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -69,16 +56,8 @@ public class Itinerary {
         this.totalPeople = totalPeople;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setItems(List<ItineraryItem> items) {

@@ -3,6 +3,8 @@ com\plango\repository\NotificationRepository.class
 com\plango\dto\auth\LoginRequest.class
 com\plango\repository\EmergencyContactRepository.class
 com\plango\controller\AuthController.class
+com\plango\dto\auth\LoginResponse$UserData.class
+com\plango\repository\CategoryRepository.class
 com\plango\controller\HomeController.class
 com\plango\service\UserService.class
 com\plango\controller\PaymentController.class
