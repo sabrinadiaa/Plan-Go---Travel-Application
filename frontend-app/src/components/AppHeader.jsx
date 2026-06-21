@@ -1,39 +1,67 @@
-import { useNavigate } from "react-router-dom";
+import { getLoggedInUser } from "../utils/auth";
+import { markCustomerUnsafe } from "../utils/safetyRecord";
 
 function AppHeader() {
-  const navigate = useNavigate();
+  const handleEmergencyClick = () => {
+    const user = getLoggedInUser();
+
+    const confirmEmergency = window.confirm(
+      "Apakah kamu yakin ingin mengirim sinyal darurat?"
+    );
+
+    if (!confirmEmergency) {
+      return;
+    }
+
+    markCustomerUnsafe(user, "Current Trip");
+
+    alert("Sinyal darurat berhasil dikirim ke admin.");
+  };
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        marginLeft: "calc(50% - 50vw)",
-        marginRight: "calc(50% - 50vw)",
-        background: "white",
-        padding: "24px 64px",
-        boxShadow: "0 4px 14px rgba(0,0,0,0.08)",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-        boxSizing: "border-box",
-      }}
-    >
-      <h2
-        style={{
-          color: "#4F7F5F",
-          margin: 0,
-          fontSize: "28px",
-          fontWeight: "800",
-        }}
-      >
-        Plan & Go
-      </h2>
+    <header style={headerStyle}>
+      <h2 style={logoStyle}>Plan & Go</h2>
 
-    </div>
+      <button onClick={handleEmergencyClick} style={emergencyButtonStyle}>
+        🚨
+      </button>
+    </header>
   );
 }
+
+const headerStyle = {
+  width: "100vw",
+  marginLeft: "calc(50% - 50vw)",
+  marginRight: "calc(50% - 50vw)",
+  height: "64px",
+  background: "#FFFFFF",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: "0 28px",
+  boxSizing: "border-box",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+  position: "sticky",
+  top: 0,
+  zIndex: 1000,
+};
+
+const logoStyle = {
+  margin: 0,
+  color: "#4F7F5F",
+  fontWeight: "900",
+};
+
+const emergencyButtonStyle = {
+  border: "none",
+  width: "44px",
+  height: "44px",
+  borderRadius: "50%",
+  background: "#C53030",
+  color: "white",
+  fontSize: "18px",
+  fontWeight: "900",
+  cursor: "pointer",
+};
 
 export default AppHeader;
