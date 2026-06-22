@@ -7,48 +7,39 @@ import AdminBottomNav from "../components/AdminBottomNav";
 const INITIAL_DESTINATIONS = [
   {
     id: 1,
-    name: "Amalfi Coast",
-    location: "Italy",
-    category: "LUXURY",
-    price: "1200",
+    name: "Ubud Rice Terrace",
+    location: "Bali,  Indonesia",
+    category: "Nature",
+    price: "25000",
     image:
-      "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1",
   },
   {
-    id: 2,
-    name: "Zermatt Peak",
-    location: "Switzerland",
-    category: "MOUNTAIN",
-    price: "2450",
+    id: 19,
+    name: "Armor Kopi",
+    location: "Dago Pakar, Bandung",
+    category: "Cafe",
+    price: "0",
     image:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085",
   },
   {
-    id: 3,
-    name: "Shibuya District",
-    location: "Japan",
-    category: "URBAN",
-    price: "1800",
+    id: 21,
+    name: "Pasar Beringharjo",
+    location: "Malioboro, Yogyakarta",
+    category: "Shopping",
+    price: "0",
     image:
-      "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    id: 4,
-    name: "Baa Atoll",
-    location: "Maldives",
-    category: "BEACH",
-    price: "3100",
-    image:
-      "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1605371924599-2d0365da1ae0",
   },
 ];
 
-const CATEGORIES = ["ALL", "BEACH", "MOUNTAIN", "URBAN", "LUXURY"];
+const CATEGORIES = ["ALL", "Nature", "Shopping", "Cafe", "Hotel", "Club"];
 
 const EMPTY_FORM = {
   name: "",
   location: "",
-  category: "BEACH",
+  category: "Nature",
   price: "",
   image: "",
 };
